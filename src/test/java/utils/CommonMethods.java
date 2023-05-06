@@ -1,5 +1,8 @@
 package utils;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+
 import net.serenitybdd.core.pages.PageObject;
 
 public class CommonMethods extends PageObject{
@@ -33,6 +36,16 @@ public class CommonMethods extends PageObject{
 	public void closebrowser() {
 		getDriver().quit();
 		
+	}
+	
+	public void scrolldown() {
+		getDriver().findElement(By.xpath("//body")).click();
+		getDriver().findElement(By.xpath("//body")).sendKeys(Keys.PAGE_DOWN);
+	}
+
+	public void scrollUp() {
+		getDriver().findElement(By.xpath("//body")).click();
+		getDriver().findElement(By.xpath("//body")).sendKeys(Keys.PAGE_UP);
 	}
 
 }

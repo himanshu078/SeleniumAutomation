@@ -1,16 +1,22 @@
 package pages;
 
 
+import java.util.List;
+
 import org.junit.Assert;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.Steps;
 import setup.Init;
+import utils.CommonMethods;
 import utils.ReportLog;
 
 
@@ -18,7 +24,13 @@ public class HomePage extends PageObject{
 
 	@Steps
 	ReportLog report;
+	@Steps
 	Init init;
+	@Steps
+	Product product;
+	@Steps
+	CommonMethods common;
+
 
 	@FindBy(xpath= "//button[text()='No thanks']")	
 	//	@FindBy(xpath= "//button[@class='modal-dialog__content__close']")
@@ -88,11 +100,11 @@ public class HomePage extends PageObject{
 
 	public void openApplication() {
 
-		
+
 		getDriver().get(init.getAppUrl());
-	//	getDriver().navigate().to(init.getAppUrl());
-		
-	//	It will open the default url based on the env. mentioned in the serenity
+		//	getDriver().navigate().to(init.getAppUrl());
+
+		//	It will open the default url based on the env. mentioned in the serenity
 		//open();
 
 		waitABit(2000);
@@ -111,12 +123,13 @@ public class HomePage extends PageObject{
 
 		System.out.println(getDriver().getCurrentUrl());
 		System.out.println(getDriver().getTitle());
-		
+
+
+
 		//getpagesource of the url
 		String p = getDriver().getPageSource();
-	//	System.out.println(p);
-		
-		
+		//	System.out.println(p);
+
 		/*
 		// to test longos url
 
@@ -127,12 +140,12 @@ public class HomePage extends PageObject{
 					waitABit(4000);
 					System.out.println(getDriver().getCurrentUrl());
 					System.out.println(getDriver().getTitle());
-					
+
 				//	getDriver().findElement(By.xpath("//input[@aria-label= 'search-input']")).sendKeys("eggs");waitABit(2000);
 				//	getDriver().findElement(By.xpath("//button[@type= 'button']")).click();
-					
 
-		
+
+
 			getDriver().findElement(By.xpath("//button[text()=' my account ']")).click(); 
 			getDriver().findElement(By.xpath("//button[text()=' create an account ']")).click();
 			getDriver().findElement(By.id("email")).sendKeys("himanshu_rock1@yahoo.com");
@@ -145,9 +158,9 @@ public class HomePage extends PageObject{
 			getDriver().findElement(By.id("tyrNoWishCheck")).click();waitABit(3000);
 			getDriver().findElement(By.id("postalCode")).sendKeys("L5M0Y3");waitABit(3000);
 			getDriver().findElement(By.xpath("//button[text()=' create account ']")).click();waitABit(5000);
-			
-	*/
-		 
+
+		 */
+
 	}
 
 	public void clearSignUpPopUp() {
@@ -205,16 +218,21 @@ public class HomePage extends PageObject{
 	public void searchProduct(String product) {
 
 		searchbar.clear();
-		//	searchbar.sendKeys(product);
+		//searchbar.sendKeys(product);
+		//submitSearch.click();
 		searchbar.typeAndEnter(product);
-		waitABit(1000);
-		//	submitSearch.click();
+		waitABit(2000);
+
 		report.LOG("Product name is entered in the search bar");
 
 	}
 
 
 	public void validateSortDropdown() {
+
+		//li[@class ='styled-dropdown__list-item']/button[text()='Price (High to Low)']
+
+		//for relevance - //li[@class ='styled-dropdown__list-item styled-dropdown__list-item--selected']
 
 		sortByDropdown();
 		Assert.assertEquals("Relevance", sortByRelevance.getText());
@@ -231,6 +249,7 @@ public class HomePage extends PageObject{
 
 	public void selectSortByOption(String SortOption) {
 
+		common.scrolldown();
 		waitABit(2000);
 		if (SortOption.equalsIgnoreCase(sortByRelevance.getText()))
 		{
@@ -261,25 +280,12 @@ public class HomePage extends PageObject{
 		}
 		else report.LOG(SortOption + " is not a valid input");	
 		waitABit(5000);
-		scrolldown();
+
 	}
 
 	public void sortByDropdown() {
 		clickSortDropDown.click();
 		report.LOG("Sort by dropdown is clicked");
 	}
-
-	public void scrolldown() {
-		getDriver().findElement(By.xpath("//body")).click();
-		getDriver().findElement(By.xpath("//body")).sendKeys(Keys.PAGE_DOWN);
-	}
-
-	public void scrollUp() {
-		getDriver().findElement(By.xpath("//body")).click();
-		getDriver().findElement(By.xpath("//body")).sendKeys(Keys.PAGE_UP);
-	}
-
-
-
 
 }

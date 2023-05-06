@@ -1,6 +1,5 @@
 package pages;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
@@ -90,8 +89,9 @@ public class LoginPage extends PageObject{
 		Assert.assertEquals("Sign in displayed", "Sign in with", signInPageHeader.getText().substring(0, 12));
 		
 		clickPcIdLink.click();
-		waitABit(4000);
 		report.LOG("Click on Create PC id successful");
+		waitABit(4000);
+		
 
 	}
 	@Step

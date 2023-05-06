@@ -7,7 +7,10 @@ import net.thucydides.core.annotations.Steps;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.RegisterPage;
+import pages.TestWebTable;
+import pages.WindowHandles;
 import pages.Product;
+import pages.ActionsConcepts;
 import utils.ReportLog;
 import utils.CommonMethods;
 import net.serenitybdd.core.pages.PageObject;
@@ -24,9 +27,15 @@ public class RegisterSteps extends PageObject {
 	@Steps
 	ReportLog report;
 	@Steps
-	Product search;
+	Product product;
 	@Steps
 	CommonMethods common;
+	@Steps
+	ActionsConcepts action;
+	@Steps
+	WindowHandles handles;
+	@Steps
+	TestWebTable table;
 
 
 
@@ -34,6 +43,7 @@ public class RegisterSteps extends PageObject {
 	public void user_launches_loblaws_url() {
 
 		home.openApplication();
+
 
 
 	}
@@ -115,7 +125,7 @@ public class RegisterSteps extends PageObject {
 
 	@Then("search results are displayed")
 	public void search_results_are_displayed() {
-		search.getListOfProducts();
+		product.getListOfProducts();
 
 	}
 	@Then("user clicks on sorting dropdown and validate all values in dropdown are displayed")
@@ -131,7 +141,7 @@ public class RegisterSteps extends PageObject {
 
 	@Then("user add {string} to the cart")
 	public void user_add_to_the_cart(String selectedProduct) {
-		search.AddToCart(selectedProduct);
+		product.AddToCart(selectedProduct);
 
 	}
 	
@@ -146,10 +156,82 @@ public class RegisterSteps extends PageObject {
 		common.navigateBackward(); //came back to signIn page
 		common.navigateForward(); // went back to register page
 		common.refreshPage();
-		common.closebrowser();
+		common.closebrowser();	
+	}
+	
+	@When("user selects {string} and {string}")
+	public void user_selects_grocery_and(String category, String subcategory) {
+		//product.categoryProducts(category, subcategory);
 		
-
+		action.listOfSubCategories(category);
+		action.listOfItems(subcategory);
 		
 	}
+	
+	
+	@Then("user validates number of subcategories under a category is {string}")
+	public void user_validates_number_of_subcategories_under_a_category_is(String noOfSubcategoires) {
+
+		action.noOfCategories(Integer.parseInt(noOfSubcategoires));
+	}
+	
+	
+	@Then("user validates number of items under a subcategory is {string}")
+	public void user_validates_number_of_items_under_a_subcategory_is(String noOfItems) {
+	    
+		action.noOfItemsInSubCategory(Integer.parseInt(noOfItems));
+	}
+	
+	
+	@When("user selects one {string} and {string}")
+	public void user_selects_one_and(String category, String subcategory) {
+		
+	//	action.testActions("Grocery", "International Foods");
+		action.simpleTestActions();
+	    
+	}
+	
+	@Given("User launches url to test drag and drop")
+	public void user_launches_url_to_test_drag_and_drop() {
+	    action.testDragAndDrop();
+	    
+	   // action.testRightClickOperation();
+	}
+	
+	
+	@Given("User wanted to test windowhandles")
+	public void user_wanted_to_test_windowhandles() {
+		handles.testWindowHandles();
+		
+	}
+	
+	@Given("user wanted to test windowhandles for loblaws")
+	public void user_wanted_to_test_windowhandles_for_loblaws() {
+		handles.testWindowHandlesInLowblaws();
+	}
+	
+	@Then("user select {string} on the page")
+	public void user_select_on_the_page(String filterName) {
+	    
+	    product.searchFilter(filterName);
+	}
+	
+	@Then("user selects {string} option from the filter")
+	public void user_selects_option_from_the_filter(String filterOption) {
+		
+		product.selectFilterOption(filterOption);
+	    
+	}
+	
+	@Then("user search for {string} brand in the filter")
+	public void user_search_for_brand_in_the_filter(String search) {
+		product.searchableDropdownforBrands(search);
+	}
+	
+	@Given("user wanted to test web table")
+	public void user_wanted_to_test_web_table() {
+		table.WebTableTesting();
+	}
+
 
 }
